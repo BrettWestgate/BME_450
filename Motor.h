@@ -3,30 +3,25 @@
 
 #include <Arduino.h>
 #include <Adafruit_MotorShield.h>
-//#include <Adafruit_MotorShield.cpp>
-
 
 class Pleth_Motor {
 
   private:
-  byte Downpin;               //Output Pin Variable
+  byte Downpin;                                   //Output Pin Variable
   byte Uppin;
   byte Forwardpin;
   byte Backwardpin;
-  //byte Homepin;
   byte state;
   byte LastForVal;
   byte LastBackVal;
   byte LastUpVal;
-  byte LastDownVal;
-  //byte LastHomeVal;
+  byte LastDownVal;;
   byte CurForVal;
   byte CurBackVal;
   byte CurUpVal;
   byte CurDownVal;
-  //byte CurHomeVal;
-  int p;   
-  Adafruit_StepperMotor* PlethMotor;                       //Steps/Position Variable
+    int p;                                         //Steps/Position Variable
+  Adafruit_StepperMotor* PlethMotor;                       
   
 
   public:
