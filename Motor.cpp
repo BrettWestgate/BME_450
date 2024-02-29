@@ -1,50 +1,51 @@
 #include "Motor.h"
 
 
-
-Pleth_Motor::Pleth_Motor(Adafruit_StepperMotor* PlethMotor, byte pinFLabView, byte pinBLabView, byte Forwardpin, byte Backwardpin, byte Homepin) {      
+Pleth_Motor::Pleth_Motor(Adafruit_StepperMotor* PlethMotor, byte Downpin, byte Uppin, byte Forwardpin, byte Backwardpin, byte Homepin) {      
   this->PlethMotor = PlethMotor;
-  this->pinFLabView = pinFLabView;            //Assigns the variable to it's own changing value
-  this->pinBLabView = pinBLabView;
+  this->Downpin = Downpin;            //Assigns the variable to it's own changing value
+  this->Uppin = Uppin;
   this->Forwardpin = Forwardpin;               //Assigns the variable to it's own changing value
   this->Backwardpin = Backwardpin;
-  this->Homepin = Homepin;
   init_Pleth();                                     //Starts the initiation/Pin out set up method
 }
 
 Pleth_Motor::Pleth_Motor() {
-  this->pinFLabView = 8;            //Assigns the variable to it's own changing value
-  this->pinBLabView = 7;
+  this->Downpin = 8;            //Assigns the variable to it's own changing value
+  this->Uppin = 7;
   this->Forwardpin = 2;               //Assigns the variable to it's own changing value
   this->Backwardpin = 4;
-  this->Homepin = 12;
   init_Pleth();
 }
 
 void Pleth_Motor::init_Pleth() {              
-  pinMode(pinFLabView, OUTPUT);               //Assigns the pin out to the output signals
-  pinMode(pinBLabView, OUTPUT);               //Assigns the pin out to the output signals
+  pinMode(Uppin, INPUT);               //Assigns the pin out to the output signals
+  pinMode(Downpin, INPUT);               //Assigns the pin out to the output signals
   pinMode(Forwardpin, INPUT);                        //Assigns pins as input pins
   pinMode(Backwardpin, INPUT);                        //Assigns pins as input pins
   pinMode(Homepin, INPUT); 
   LastForVal = LOW;
   LastBackVal= LOW;
-  LastHomeVal = LOW;
-                                        //Starts the release Method to set up motor
+  LastUpVal = LOW;
+  LastDownVal = LOW;
+                                        
+}
+void Pleth_Motor::move_F() {
+  
 }
 
-void Pleth_Motor::step_F() {
-  Serial.println("Step F");
+void Pleth_Motor::move_B() {
+  
+}
+
+void Pleth_Motor::step_U() {
+  Serial.println("Step Up");
   PlethMotor->step(50, FORWARD, MICROSTEP);          //Object takes one turn forward
-  digitalWrite(pinFLabView, HIGH);            //Relays output signal about successful step
-  p=p+1;                                        //Increases the Position tracker
 }
 
-void Pleth_Motor::step_B() {
-  Serial.println("Step B");
+void Pleth_Motor::step_D() {
+  Serial.println("Step Down");
   PlethMotor->step(50, BACKWARD, MICROSTEP);         //Object takes one turn backward
-  digitalWrite(pinBLabView, HIGH);            //Relays output signal about successful step
-  p=p-1;                                        //Decreases the Position tracker
 }
 
 //void Pleth_Motor::off() {
@@ -52,53 +53,49 @@ void Pleth_Motor::step_B() {
   //digitalWrite(pinBLabView, LOW);             //Relays that motor is now off and not moving
 //}
 
-void Pleth_Motor::GoHome() {    
-  if (p > 0) {                                //Checks position value
-    PlethMotor->step((50*p), BACKWARD, MICROSTEP);
-    return 1;       //Backs the motor up towards the inital position
-  }
-  if (p < 0) {                                //Checks position value
-    p = (0 - p);                                //Assigns absolute value of position
-    PlethMotor->step((50*p), FORWARD, MICROSTEP);
-    return 1;        //Moves the motor towards the intial position
-  }
-  else 
-    Serial.println("At Home");
-    //off();  
-    return 0;                                  //Relays that motor has stopped moving
-
 }
 
 int Pleth_Motor::ReadInputs() {
   CurForVal=digitalRead(Forwardpin);
   CurBackVal=digitalRead(Backwardpin);
-  CurHomeVal=digitalRead(Homepin);
+  CurUpVal=digitalRead(Uppin);
+  CurDownVal=digitalRead(Downpin);
+  
   if (!LastForVal && CurForVal) {
     LastForVal = CurForVal;
-    Serial.println("Recieved 1");
-    step_F();
+    move_F();
     //delay(100);
     Serial.println("Forward");
     return 1;
   }
-  if (!LastBackVal && CurBackVal) {
+    
+  else if (!LastBackVal && CurBackVal) {
     LastBackVal = CurBackVal;
-    Serial.println("Recieved 2");
-    step_B(); 
+    move_B(); 
     //delay(100);
     Serial.println("Backward");
     return 1;
   }
-  else if (!LastHomeVal && CurHomeVal) {
-    LastHomeVal=CurHomeVal;
-    Serial.println("Recieved 3");
-    GoHome();
-    //delay(100);
+    
+  else if (!LastUpVal && CurUpVal) {
+    LastUpVal = CurUpVal;
+    step_U();
+    Serial.println("Up");
+    return 1;    
   }
+    
+  else if (!LastDownVal && CurDownVal) {
+    LastDownVal = CurDownVal;
+    step_D();
+    Serial.println("Down");
+    return 1;
+  }
+    
   else {
     LastForVal = LOW;
     LastBackVal= LOW;
-    LastHomeVal = LOW;
+    LastUpVal = LOW;
+    LastDownVal = LOW;
       return 0;
   }
 }
