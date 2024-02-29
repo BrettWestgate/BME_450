@@ -29,16 +29,15 @@ class Pleth_Motor {
 
   Pleth_Motor();                  //Method to set up Pinouts
   void init_Pleth();                    //Method to assign the Pinouts
-  void step_F();                  //Method for forward step
-  void step_B();                  //Method for backward step
+  void move_F();                  //Method for forward step
+  void move_B();                  //Method for backward step
   void step_U();
   void step_D();
   void off();                     //Method for release/output signaling release
   void Position(int p) {          //Method for steps tracking
     this->p = p;
   }
-  void GoHome();                  //Method for returning to beginnning position
-  int ReadInputs();
+  int ReadInputs();              //Main code function
 };
 
 #endif
