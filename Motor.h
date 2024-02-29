@@ -9,30 +9,36 @@
 class Pleth_Motor {
 
   private:
-  byte pinFLabView;               //Output Pin Variable
-  byte pinBLabView;
+  byte Downpin;               //Output Pin Variable
+  byte Uppin;
   byte Forwardpin;
   byte Backwardpin;
-  byte Homepin;
+  //byte Homepin;
   byte state;
   byte LastForVal;
   byte LastBackVal;
-  byte LastHomeVal;
+  byte LastUpVal;
+  byte LastDownVal;
+  //byte LastHomeVal;
   byte CurForVal;
   byte CurBackVal;
-  byte CurHomeVal;
+  byte CurUpVal;
+  byte CurDownVal;
+  //byte CurHomeVal;
   int p;   
   Adafruit_StepperMotor* PlethMotor;                       //Steps/Position Variable
   
 
   public:
-  Pleth_Motor(Adafruit_StepperMotor* PlethMotor, byte pinFLabView, byte pinBLabView, byte Forwardpin, byte Backwardpin, byte Homepin);
+  Pleth_Motor(Adafruit_StepperMotor* PlethMotor, byte Downpin, byte Uppin, byte Forwardpin, byte Backwardpin);
 
-  Pleth_Motor();                  //Method to set up Pin outs
-  void init_Pleth();                    //Method to assign the Pin outs
+  Pleth_Motor();                  //Method to set up Pinouts
+  void init_Pleth();                    //Method to assign the Pinouts
   void step_F();                  //Method for forward step
   void step_B();                  //Method for backward step
-  void off();                     //Method for release/output signalling release
+  void step_U();
+  void step_D();
+  void off();                     //Method for release/output signaling release
   void Position(int p) {          //Method for steps tracking
     this->p = p;
   }
