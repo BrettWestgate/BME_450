@@ -2,9 +2,11 @@
 #define MY_MOTOR_H
 
 #include <Arduino.h>
+#include <Wire.h>
 #include <Adafruit_MotorShield.h>
+#include "utility/Adafruit_MS_PWMServoDriver.h"
 
-class Pleth_Motor {
+class Light_Motor {
 
   private:
   byte Downpin;                                   //Output Pin Variable
@@ -21,13 +23,14 @@ class Pleth_Motor {
   byte CurUpVal;
   byte CurDownVal;
     int p;                                         //Steps/Position Variable
-  Adafruit_StepperMotor* PlethMotor;                       
+  Adafruit_StepperMotor* StepMotor;
+  Adafruit_DCMotor *DCMotor
   
 
   public:
-  Pleth_Motor(Adafruit_StepperMotor* PlethMotor, byte Downpin, byte Uppin, byte Forwardpin, byte Backwardpin);
+  Light_Motor(Adafruit_StepperMotor* StepMotor, Adafruit_DCMotor *DCMotor, byte Downpin, byte Uppin, byte Forwardpin, byte Backwardpin);
 
-  Pleth_Motor();                  //Method to set up Pinouts
+  Light_Motor();                  //Method to set up Pinouts
   void init_Pleth();                    //Method to assign the Pinouts
   void move_F();                  //Method for forward step
   void move_B();                  //Method for backward step
