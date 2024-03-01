@@ -23,8 +23,8 @@ class Light_Motor {
   byte CurUpVal;
   byte CurDownVal;
     int p;                                         //Steps/Position Variable
-  Adafruit_StepperMotor* StepMotor;
-  Adafruit_DCMotor *DCMotor
+  Adafruit_StepperMotor* myMotor;
+  Adafruit_DCMotor *myMotor
   
 
   public:
