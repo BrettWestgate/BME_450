@@ -2,7 +2,7 @@
 
 
 Light_Motor::Light_Motor(Adafruit_StepperMotor* StepMotor, Adafruit_DCMotor *DCMotor, byte Downpin, byte Uppin, byte Forwardpin, byte Backwardpin, byte Homepin) {      
-  this->PlethMotor = PlethMotor;
+  this->LightMotor = LightMotor;
   this->Downpin = Downpin;            //Assigns the variable to it's own changing value
   this->Uppin = Uppin;
   this->Forwardpin = Forwardpin;               //Assigns the variable to it's own changing value
@@ -18,44 +18,44 @@ Light_Motor::Light_Motor() {
   init_Pleth();
 }
 
-void Pleth_Motor::init_Pleth() {              
+void Light_Motor::init_Pleth() {              
   pinMode(Uppin, INPUT);               //Assigns the pin out to the output signals
   pinMode(Downpin, INPUT);               //Assigns the pin out to the output signals
   pinMode(Forwardpin, INPUT);                        //Assigns pins as input pins
-  pinMode(Backwardpin, INPUT);                        //Assigns pins as input pins
-  pinMode(Homepin, INPUT); 
+  pinMode(Backwardpin, INPUT);                        //Assigns pins as input pins 
   LastForVal = LOW;
   LastBackVal= LOW;
   LastUpVal = LOW;
   LastDownVal = LOW;
                                         
 }
-void Pleth_Motor::move_F() {
-  
+void Light_Motor::move_F() {
+  Serial.println("Move Forward");
+  LightMotor->run(FORWARD);
 }
 
-void Pleth_Motor::move_B() {
-  
+void Light_Motor::move_B() {
+  Serial.println("Move Backward")
+  LightMotor->run(BACKWARD);
 }
 
-void Pleth_Motor::step_U() {
+void Light_Motor::step_U() {
   Serial.println("Step Up");
   PlethMotor->step(50, FORWARD, MICROSTEP);          //Object takes one turn forward
 }
 
-void Pleth_Motor::step_D() {
+void Light_Motor::step_D() {
   Serial.println("Step Down");
   PlethMotor->step(50, BACKWARD, MICROSTEP);         //Object takes one turn backward
 }
 
-//void Pleth_Motor::off() {
-  //digitalWrite(pinFLabView, LOW);             //Relays that motor is now off and not moving
-  //digitalWrite(pinBLabView, LOW);             //Relays that motor is now off and not moving
+//void Light_Motor::off() {
+    LightMotor->run(RELEASE);             //Relays that motor is now off and not moving
 //}
 
 }
 
-int Pleth_Motor::ReadInputs() {
+int Light_Motor::ReadInputs() {
   CurForVal=digitalRead(Forwardpin);
   CurBackVal=digitalRead(Backwardpin);
   CurUpVal=digitalRead(Uppin);
