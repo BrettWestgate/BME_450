@@ -1,7 +1,7 @@
 #include "Motor.h"
 
 
-Pleth_Motor::Pleth_Motor(Adafruit_StepperMotor* PlethMotor, byte Downpin, byte Uppin, byte Forwardpin, byte Backwardpin, byte Homepin) {      
+Light_Motor::Light_Motor(Adafruit_StepperMotor* StepMotor, Adafruit_DCMotor *DCMotor, byte Downpin, byte Uppin, byte Forwardpin, byte Backwardpin, byte Homepin) {      
   this->PlethMotor = PlethMotor;
   this->Downpin = Downpin;            //Assigns the variable to it's own changing value
   this->Uppin = Uppin;
@@ -10,7 +10,7 @@ Pleth_Motor::Pleth_Motor(Adafruit_StepperMotor* PlethMotor, byte Downpin, byte U
   init_Pleth();                                     //Starts the initiation/Pin out set up method
 }
 
-Pleth_Motor::Pleth_Motor() {
+Light_Motor::Light_Motor() {
   this->Downpin = 8;            //Assigns the variable to it's own changing value
   this->Uppin = 7;
   this->Forwardpin = 2;               //Assigns the variable to it's own changing value
