@@ -15,8 +15,13 @@
 
 Adafruit_MotorShield AFMS = Adafruit_MotorShield();
 Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 1);   //Connects to Motorshield/Stepper motor
+Adafruit_StepperMotor *myMotor = AFMS.getStepper(200, 1);
+Adafruit_DCMotor *RUMotor = AFMS.getMotor(200, 1);
+Adafruit_DCMotor *RDMotor = AFMS.getMotor(200, 2);
+Adafruit_DCMotor *LUMotor = AFMS.getMotor(200, 3);
+Adafruit_DCMotor *LDMotor = AFMS.getMotor(200, 4);
 
-Pleth_Motor Motor (myMotor, Forward_Send, Backward_Send, Forward_Con, Backward_Con, Home_Con);                       //Creates Instance in the motor class
+Light_Motor Motor (myMotor, Forward_Send, Backward_Send, Forward_Con, Backward_Con, Home_Con);                       //Creates Instance in the motor class
 
 int M;
 
@@ -33,13 +38,11 @@ void setup() {
 
   myMotor->setSpeed(10);  // 10 rpm                           //Signals motor is ready to begin
   Motor.init_Pleth();
-  myMotor->step(10, FORWARD, SINGLE);
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
- //Motor.step(50, BACKWARD, DOUBLE);
   M=Motor.ReadInputs();                             //Checks if a front step input has been received
-    //Motor.off();
+    Motor.off();
     delay(250);
   }
